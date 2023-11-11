@@ -1,0 +1,11 @@
+{
+  "name": "login-signup-nodejs",
+  "version": "1.0.0",
+  "description": "Creating a registration and login page using NodeJS",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Abolfazl Ghaderi",
+  "license": "Unlicense"
+}
