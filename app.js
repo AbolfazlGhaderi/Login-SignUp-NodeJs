@@ -6,7 +6,7 @@ const path =require('path');
 
 //----------- Set Views ------------------
 
-app.set("view engin", "ejs");
+app.set("view engine", "ejs");
 app.set("views", "views");
 
 //----------- Middlewares ----------------
@@ -18,7 +18,10 @@ app.use("/assets",express.static(path.join(__dirname,'public')))
 
 
 app.get("/", (req, res) => {
-  res.send("Hello World !");
+  res.render('./login.ejs')
 });
+app.get("/signup", (req, res) => {
+    res.render('./Singup.ejs')
+  });
 
 app.listen(3000, console.log("App is Runing in port 3000 !"));
