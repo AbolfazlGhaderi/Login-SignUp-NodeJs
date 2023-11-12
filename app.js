@@ -1,17 +1,18 @@
 const express = require("express");
 const app = express();
 
+const bodyParser=require('body-parser');
+const path =require('path');
+
 //----------- Set Views ------------------
 
 app.set("view engin", "ejs");
 app.set("views", "views");
 
-//-----------------------------
+//----------- Middlewares ----------------
 
-//------------------- Middlewares --------------------------------
-
-
-
+app.use(bodyParser.urlencoded({extended:false}))
+app.use("/assets",express.static(path.join(__dirname,'public')))
 //-----------------
 
 
