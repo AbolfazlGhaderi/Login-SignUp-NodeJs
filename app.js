@@ -13,6 +13,7 @@ app.set("views", "views");
 
 app.use(bodyParser.urlencoded({extended:false}))
 app.use("/assets",express.static(path.join(__dirname,'public')))
+
 //-----------------
 
 
