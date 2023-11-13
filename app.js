@@ -19,5 +19,7 @@ app.use("/assets",express.static(path.join(__dirname,'public')))
 
 app.use(authRoute)
 
-
+app.get('/',(req,res)=>{
+res.render('./index.ejs')
+})
 app.listen(3000, console.log("App is Runing in port 3000 !"));

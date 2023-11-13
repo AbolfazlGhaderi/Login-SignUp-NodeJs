@@ -147,7 +147,25 @@ body {
     accent-color: #232931;
 }
 
-.login-card button {
+.login-card-form a{
+    
+    background: #21262d;
+    color: white;
+    padding: 1rem;
+    border-radius: 100px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 400;
+    cursor: pointer;
+}
+.login-card-form a:hover{
+    
+    background: #1f2a35;
+    text-decoration: none;
+
+}
+
+.login-card button{
     background: #191d23;
     color: white;
     padding: 1rem;

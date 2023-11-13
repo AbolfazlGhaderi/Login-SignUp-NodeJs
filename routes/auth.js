@@ -8,4 +8,5 @@ router.get('/singin',authRouter.getSingin)
 
 router.get('/singup',authRouter.getSingup)
 
+
 module.exports=router;
