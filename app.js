@@ -4,6 +4,7 @@ const app = express();
 const bodyParser=require('body-parser');
 const path =require('path');
 
+const authRoute=require('./routes/auth');
 //----------- Set Views ------------------
 
 app.set("view engine", "ejs");
@@ -14,14 +15,9 @@ app.set("views", "views");
 app.use(bodyParser.urlencoded({extended:false}))
 app.use("/assets",express.static(path.join(__dirname,'public')))
 
-//-----------------
+//----------- Router ---------------------
 
+app.use(authRoute)
 
-app.get("/", (req, res) => {
-  res.render('./login.ejs')
-});
-app.get("/signup", (req, res) => {
-    res.render('./Singup.ejs')
-  });
 
 app.listen(3000, console.log("App is Runing in port 3000 !"));
