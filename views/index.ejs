@@ -1,29 +1,52 @@
 <%- include('./includes/head.ejs') %>
 
-</head>
+    </head>
 
-<body>
+    <body>
 
-    <div class="login-card-container" >
-        <div class="login-card" style="margin-top:80px;">
-            <div class="login-card-logo">
-                <img src="./assets/img/general/logo.png" alt="logo">
-            </div>
-            <div class="login-card-header">
-                <h1>صفحه اصلی</h1>
-                <div>وارد شوید یا ثبت نام کنید !</div>
-            </div>
-            <div class="login-card-form">
-                <a href="/singin"  >ورود</a>
-                <a href="/singup" >ثبت نام </a>
+        <% if (successAddProduct=="test" ) {%>
 
-            </div>
-            <div class="login-card-footer">
-                   <a href="http://www.github.com/abolfazlghaderi" target="_blank" >توسعه داده شده توسط <b>ابوالفضل قادری </b></a>
-            </div>
-        </div>
-    </div>
+            <script>
+            const Toast = Swal.mixin({
+               toast: true,
+                position: 'top-end',
+               showConfirmButton: false,
+               timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer)
+                  toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+           })
+   
+           Toast.fire({
+                icon: 'success',
+                title: '  با موفقیت وارد شدی :)'
+           })
+            </script>
 
-</body>
+            <% } %>
+                <div class="login-card-container">
+                    <div class="login-card" style="margin-top:80px;">
+                        <div class="login-card-logo">
+                            <img src="./assets/img/general/logo.png" alt="logo">
+                        </div>
+                        <div class="login-card-header">
+                            <h1>صفحه اصلی</h1>
+                            <div>وارد شوید یا ثبت نام کنید !</div>
+                        </div>
+                        <div class="login-card-form">
+                            <a href="/singin">ورود</a>
+                            <a href="/singup">ثبت نام </a>
 
-</html>
+                        </div>
+                        <div class="login-card-footer">
+                            <a href="http://www.github.com/abolfazlghaderi" target="_blank">توسعه داده شده توسط
+                                <b>ابوالفضل قادری </b></a>
+                        </div>
+                    </div>
+                </div>
+
+    </body>
+
+    </html>
