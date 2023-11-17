@@ -8,6 +8,6 @@ exports.getSingin = (req,res)=>{
 }
 
 exports.getSingup = (req,res)=>{
-    let successAddProduct=req.flash("successAddProduct","test");
-    res.redirect('/')
+    // let successAddProduct=req.flash("successAddProduct","test");
+    res.render('../views/Singup.ejs')
 }
