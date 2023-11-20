@@ -13,10 +13,18 @@
                 <h1>فرم ثبت نام</h1>
                 <div>اطلاعات خود را با دقت وارد کنید !</div>
             </div>
-            <form class="login-card-form">
+
+            <div class="err" >
+                <div class="checkbox">
+                    <p></p>
+                </div>
+                
+            </div>
+
+            <form class="login-card-form" action="#" method="post">
                 <div class="form-item">
                     <span class="form-item-icon material-symbols-rounded">link</span>
-                    <input type="text" placeholder="نام کاربری" id="userName" name="userName"
+                    <input type="text" placeholder="نام کاربری" id="userName" name="userName" minlength="3"
                     autofocus required>
                 </div>
                 <div class="form-item">
@@ -24,10 +32,10 @@
                     <input type="email" placeholder="ایمیل" id="email" name="email"
                      required>
                 </div>
-                <div class="form-item">
+                <div class="form-item" dir="rtl">
                     <span class="form-item-icon material-symbols-rounded">phone</span>
                     <input type="text" placeholder="تلفن همراه" id="phoneNumber" name="phoneNumber"
-                     required>
+                      minlength="11"maxlength="11" required >
                 </div>
                 <div class="form-item">
                     <span class="form-item-icon material-symbols-rounded">lock</span>
