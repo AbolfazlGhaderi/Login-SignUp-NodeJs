@@ -1,6 +1,5 @@
 
-
-
+const {validationResult} =require('express-validator');
 // ---------------------- GET ----------------------
 exports.getSingin = (req,res)=>{
     
@@ -19,6 +18,13 @@ exports.getSingup = (req,res)=>{
 
 exports.postSingUp =  (req,res)=>{
    
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        console.log(errors.mapped() );
+        return res.render('../views/Singup.ejs',{
+            errors:errors.mapped() 
+        })
+    }
     console.log(req.body);
    res.json(req.body);
 }
