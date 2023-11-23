@@ -2,6 +2,7 @@ const express=require('express');
 const router=express.Router();
 const authRouter=require('../controllers/auth');
 
+const {check,validationResult} = require('express-validator');
 
 // ---------------------- GET ----------------------
 
