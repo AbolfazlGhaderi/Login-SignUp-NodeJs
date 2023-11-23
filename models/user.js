@@ -20,7 +20,11 @@ const Users = mongoose.model('Users', new mongoose.Schema({
     password:{
         type:String,
         required:true,
-    }
+    },
+    dateCreated:{
+        type:Date,
+        default:Date.now
+    },
 })
 )
 
