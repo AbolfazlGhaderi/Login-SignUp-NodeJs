@@ -8,7 +8,7 @@ const cookiParser = require('cookie-parser');
 const session = require('express-session');
 
 const authRoute = require('./routes/auth');
-const { mongo, Mongoose } = require("mongoose");
+const morgan=require('morgan');
 
 const mongoose = require("mongoose")
 //----------- Set Views ------------------
@@ -17,7 +17,7 @@ app.set("view engine", "ejs");
 app.set("views", "views");
 
 //----------- Middlewares ----------------
-
+app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use("/assets", express.static(path.join(__dirname, 'public')))
 //----------- flash ----------------------

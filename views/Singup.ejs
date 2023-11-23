@@ -3,6 +3,17 @@
 </head>
 
 <body>
+    
+    <% if(validateError){  %>
+     <script>
+        
+        Swal.fire({
+            icon: 'error',
+            title: 'خطا در ثبت نام',
+            text: '<%= validateError %> \n dfsfsfsd',
+        })
+     </script>
+    <% } %>
 
     <div class="login-card-container">
         <div class="login-card">
@@ -12,16 +23,16 @@
             <div class="login-card-header">
                 <h1>فرم ثبت نام</h1>
                 <div>اطلاعات خود را با دقت وارد کنید !</div>
-            </div>
-
-            <div class="err" >
-                <div class="checkbox">
-                    <p></p>
-                </div>
+                <br>
                 
             </div>
 
-            <form class="login-card-form" action="#" method="post">
+            <div class="err" >
+
+                
+            </div>
+
+            <form class="login-card-form" action="/singup" method="post">
                 <div class="form-item">
                     <span class="form-item-icon material-symbols-rounded">link</span>
                     <input type="text" placeholder="نام کاربری" id="userName" name="userName" minlength="3"
@@ -44,10 +55,6 @@
                 </div>
 
                 <div class="form-item-other">
-                    <div class="checkbox">
-                        <input type="checkbox" id="rememberMeCheckbox" checked>
-                        <label for="rememberMeCheckbox">قوانین و مقررات را خواندم و با آنها موافقم </label>
-                    </div>
                     
                 </div>
                 <button type="submit">ثبت نام</button>
