@@ -1,6 +1,5 @@
 const bodyParser = require('body-parser');
-const jdate =require('jalali-date');
-
+const {validateSingUp} = require('../validations/userValidation');
 // ---------------------- GET ----------------------
 exports.getSingin = (req,res)=>{
     
@@ -16,6 +15,19 @@ exports.getSingup = (req,res)=>{
 
 // ---------------------- Post ----------------------
 
-exports.postSingup =(req,res)=>{
+exports.postSingUp = async (req,res)=>{
+    // const body = req.body;
+    // console.log(body);
 
+    // const {error,value}=validateSingUp(body,{ebortErly:false});
+    // if(error){
+    //     console.log(error);
+    //     return res.send(error.detals);
+    // }
+    const body = await req.body 
+   console.log(req.body);
+
+   res.json(req.body);
 }
+
+

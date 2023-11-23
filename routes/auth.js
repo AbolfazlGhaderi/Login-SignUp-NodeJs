@@ -11,7 +11,7 @@ router.get('/singup',authRouter.getSingup)
 
 // ---------------------- Post ----------------------
 
-
+router.post('/singup',authRouter.postSingUp)
 
 
 
