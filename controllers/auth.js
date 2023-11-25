@@ -24,6 +24,8 @@ exports.postSingUp =  (req,res)=>{
         return res.render('../views/Singup.ejs',{
             errors:errors.mapped() 
         })
+        //-------------------- Test With Postman -----------------
+        // res.json(errors.mapped());
     }
     console.log(req.body);
    res.json(req.body);
