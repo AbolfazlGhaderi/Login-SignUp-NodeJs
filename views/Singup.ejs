@@ -26,27 +26,50 @@
                 <div class="form-item">
                     <span class="form-item-icon material-symbols-rounded">link</span>
                     <input type="text" placeholder="نام کاربری" id="userName" name="userName" minlength="3"
-                    autofocus required>
+                    autofocus required >
+
+
                 </div>
+                <% if(errors && errors.userName) { %>
+                    <span  style="color:red;font-size: 13px;">
+                        <%= errors.userName.msg %>
+                    </span>
+                <% } %>
                 <div class="form-item">
                     <span class="form-item-icon material-symbols-rounded">mail</span>
                     <input type="email" placeholder="ایمیل" id="email" name="email"
                      required>
+
                 </div>
+                <% if(errors && errors.email) { %>
+                    <span  style="color:red;font-size: 13px;">
+                        <%= errors.email.msg %>
+                    </span>
+                <% } %>
                 <div class="form-item" dir="rtl">
                     <span class="form-item-icon material-symbols-rounded">phone</span>
                     <input type="text" placeholder="تلفن همراه" id="phoneNumber" name="phoneNumber"
                       minlength="11"maxlength="11" required >
-                </div>
-                <div class="form-item">
-                    <span class="form-item-icon material-symbols-rounded">lock</span>
-                    <input type="password" placeholder="کلمه عبور" id="password" name="password"
-                     required>
-                </div>
 
-                <div class="form-item-other">
-                    
                 </div>
+                <% if(errors && errors.phoneNumber) { %>
+                    <span  style="color:red;font-size: 13px;">
+                        <%= errors.phoneNumber.msg %>
+                    </span>
+                <% } %>
+                <div class="form-item">
+                    <span class="form-item-icon material-symbols-rounded" onclick="showPass()">lock</span>
+                    <input type="password" placeholder="کلمه عبور" id="password" name="password"
+                     required >
+
+                </div>
+                <% if(errors && errors.password) { %>
+                    <span  style="color:red;font-size: 13px;">
+                        <%= errors.password.msg %>
+                    </span>
+                <% } %>
+
+
                 <button type="submit">ثبت نام</button>
             </form>
             <div class="login-card-footer">
@@ -56,6 +79,18 @@
 
     </div>
    
+    <script>
+        const pass = document.querySelector('#password');
+        function showPass() {
+            if (pass.type === 'password') {
+                pass.type = 'text';
+            } else {
+                pass.type = 'password';
+            }
+
+        }
+
+    </script>
 </body>
 
 </html>
