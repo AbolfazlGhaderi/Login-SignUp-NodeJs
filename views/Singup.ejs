@@ -26,7 +26,7 @@
                 <div class="form-item">
                     <span class="form-item-icon material-symbols-rounded">link</span>
                     <input type="text" placeholder="نام کاربری" id="userName" name="userName" minlength="3"
-                    autofocus required >
+                    autofocus required value="<%= oldItemSUP.userName %>" >
 
 
                 </div>
@@ -38,7 +38,7 @@
                 <div class="form-item">
                     <span class="form-item-icon material-symbols-rounded">mail</span>
                     <input type="email" placeholder="ایمیل" id="email" name="email"
-                     required>
+                     required value="<%= oldItemSUP.email %>">
 
                 </div>
                 <% if(errors && errors.email) { %>
@@ -49,7 +49,7 @@
                 <div class="form-item" dir="rtl">
                     <span class="form-item-icon material-symbols-rounded">phone</span>
                     <input type="text" placeholder="تلفن همراه" id="phoneNumber" name="phoneNumber"
-                      minlength="11"maxlength="11" required >
+                      minlength="11"maxlength="11" required  value="<%= oldItemSUP.phoneNumber %>">
 
                 </div>
                 <% if(errors && errors.phoneNumber) { %>
@@ -60,7 +60,7 @@
                 <div class="form-item">
                     <span class="form-item-icon material-symbols-rounded" onclick="showPass()">lock</span>
                     <input type="password" placeholder="کلمه عبور" id="password" name="password"
-                     required >
+                     required minlength="8" value="<%= oldItemSUP.password %>">
 
                 </div>
                 <% if(errors && errors.password) { %>

@@ -1,39 +1,63 @@
 <%- include('./includes/head.ejs') %>
 
-</head>
+    </head>
 
-<body>
+    <body>
 
-    <div class="login-card-container" >
-        <div class="login-card" style="margin-top:80px;">
-            <div class="login-card-logo">
-                <img src="./assets/img/general/logo.png" alt="logo">
-            </div>
-            <div class="login-card-header">
-                <h1>فرم ورود</h1>
-                <div>برای استفاده از پلتفرم وارد شوید ...</div>
-            </div>
-            <form class="login-card-form">
-                <div class="form-item">
-                    <span class="form-item-icon material-symbols-rounded">mail</span>
-                    <input type="text" placeholder="ایمیل" id="emailForm" 
-                    autofocus required>
+        <div class="login-card-container">
+            <div class="login-card" style="margin-top:80px;">
+                <div class="login-card-logo">
+                    <img src="./assets/img/general/logo.png" alt="logo">
                 </div>
-                <div class="form-item">
-                    <span class="form-item-icon material-symbols-rounded">lock</span>
-                    <input type="password" placeholder="کلمه عبور" id="passwordForm"
-                     required>
+                <div class="login-card-header">
+                    <h1>فرم ورود</h1>
+                    <div>برای استفاده از پلتفرم وارد شوید ...</div>
                 </div>
+                <form class="login-card-form" action="/singin" method="post">
+                    <div class="form-item">
+                        <span class="form-item-icon material-symbols-rounded">mail</span>
+                        <input type="text" placeholder="ایمیل" id="email" name="email" autofocus required
+                            value="<%= oldItemSIN.email %>">
+                    </div>
 
-                <button type="submit">ورود</button>
-                <button type="submit">ورود از طریق رمز یکبار مصرف</button>
-            </form>
-            <div class="login-card-footer">
-                حساب کاربری ندارید؟ <a href="/singup">حساب جدید بسازید.</a>
+                    <% if(errors && errors.email) { %>
+                        <span style="color:red;font-size: 13px;">
+                            <%= errors.email.msg %>
+                        </span>
+                        <% } %>
+
+                    <div class="form-item">
+                        <span class="form-item-icon material-symbols-rounded" onclick="showPass()">lock</span>
+                         <input type="password" placeholder="کلمه عبور" id="password" name="password" required
+                          value="<%= oldItemSIN.password %>" minlength="8">
+                    </div>
+
+                    <% if(errors && errors.password) { %>
+                        <span style="color:red;font-size: 13px;">
+                            <%= errors.password.msg %>
+                        </span>
+                    <% } %>
+
+                        <button type="submit">ورود</button>
+                        <button type="submit">ورود از طریق رمز یکبار مصرف</button>
+                </form>
+                <div class="login-card-footer">
+                    حساب کاربری ندارید؟ <a href="/singup">حساب جدید بسازید.</a>
+                </div>
             </div>
         </div>
-    </div>
+        <script>
+            const pass = document.querySelector('#password');
+            function showPass() {
+                if (pass.type === 'password') {
+                    pass.type = 'text';
+                } else {
+                    pass.type = 'password';
+                }
 
-</body>
+            }
 
-</html>
+        </script>
+    </body>
+
+    </html>
