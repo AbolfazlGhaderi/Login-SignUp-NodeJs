@@ -1,11 +1,13 @@
 const { validationResult } = require('express-validator');
 const { Users } = require('../models/user');
 const bcryptjs = require('bcryptjs');
+
 // ---------------------- GET ----------------------
 
 exports.getSingin = (req, res) => {
-
+    const errSingin = req.flash("errSingin"); // []
     res.render('../views/Singin.ejs', {
+        errSingin,
         errors: null,
         oldItemSIN: {
             email: null,
@@ -41,7 +43,7 @@ exports.getSingInOTP = (req, res) => {
 
 exports.postSingUp = async (req, res) => {
 
-    // ---------- validator --------------------
+    // -------------- validator -----------------------------------------
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         console.log(errors.mapped());
@@ -58,7 +60,7 @@ exports.postSingUp = async (req, res) => {
         //-------------------- Test With Postman -----------------
         // res.json(errors.mapped());
     }
-    //------------------- Search in DB And Save Data -------------------------
+    //--------------- Search in DB And Save Data -------------------------
 
     const email = req.body.email
     const phoneNumber = req.body.phoneNumber
@@ -72,7 +74,7 @@ exports.postSingUp = async (req, res) => {
             return res.redirect('/singup')
         }
 
-      //--------------- Search With PhoneNumber ------------------------------
+        //----------- Search With PhoneNumber ------------------------------
 
         Users.findOne({ phoneNumber: phoneNumber }).then(result => {
 
@@ -80,7 +82,7 @@ exports.postSingUp = async (req, res) => {
                 const errSingup = req.flash("errSingup", "این تلفن همراه قبلا ثبت نام شده است!");
                 return res.redirect('/singup')
             }
-          //-------------- Password encryption By bcryptjs ---------------------
+            //-------------- Password encryption By bcryptjs ---------------------
             bcryptjs.hash(password, 13).then(passHashed => {
                 const user = new Users({
                     userName: req.body.userName,
@@ -88,6 +90,7 @@ exports.postSingUp = async (req, res) => {
                     phoneNumber: phoneNumber,
                     password: passHashed
                 });
+                //-------------- Save Data ---------------------
 
                 user.save().then(() => {
                     res.redirect('/singin')
@@ -107,11 +110,13 @@ exports.postSingUp = async (req, res) => {
 
 exports.postSingIn = (req, res) => {
 
+    // -------------- validator -----------------------------------------
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         console.log(errors.mapped());
         return res.render('../views/Singin.ejs', {
             errors: errors.mapped(),
+            errSingin: [],
             oldItemSIN: {
                 email: req.body.email,
                 password: req.body.password
@@ -121,20 +126,33 @@ exports.postSingIn = (req, res) => {
         //-------------------- Test With Postman -----------------
         // res.json(errors.mapped());
     }
+    const email = req.body.email
+    const password = req.body.password
 
-    const saveUser = new Users({
-        userName: req.body.userName,
-        email: req.body.email,
-        phoneNumber: req.body.phoneNumber,
-        password: req.body.password
-    })
-    return saveUser.save().then(() => {
-        res.redirect('/singin')
-    })
+    //--------------- Search in DB  -------------------------
+    const user = Users.findOne({ email: email })
+        .then(result => {
+            console.log(result);
+            if (!result) {
+                const errSingin = req.flash('errSingin', ' کاربر مورد نظر یافت نشد.لطفا ثبت نام کنید ❤️')
+                return res.redirect('singin')
+            }
+                //--------------- Compare Password   -------------------------
+
+            bcryptjs.compare(password, result.password).then(isMatch => {
+                if (!isMatch) {
+                    const errSingin = req.flash('errSingin', ' پسورد اشتباه است ، لطفا دقت کنید ❤️🔐')
+                    return res.redirect('singin')
+                }
+               
+                
+                res.send(req.body)
 
 
-    console.log(req.body);
-    //    res.json(req.body);
+            }).catch(err=>console.log(err))
+
+        }).catch(err=>console.log(err))
+
 }
 
 exports.postSingInOTP = (req, res) => {

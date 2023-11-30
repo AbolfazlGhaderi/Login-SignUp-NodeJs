@@ -3,7 +3,17 @@
     </head>
 
     <body>
-
+        <% if (errSingin[0]) { %>
+            <script>
+            
+             Swal.fire(
+                'Not Found',
+                '<%= errSingin[0] %>',
+                'error',
+                'Ok'
+            )
+           </script>
+           <% } %>
         <div class="login-card-container">
             <div class="login-card" style="margin-top:80px;">
                 <div class="login-card-logo">
