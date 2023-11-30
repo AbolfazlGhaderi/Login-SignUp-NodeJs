@@ -9,16 +9,17 @@
                 <div class="login-card-logo">
                     <img src="./assets/img/general/logo.png" alt="logo">
                 </div>
+
                 <div class="login-card-header">
                     <h1>فرم ورود</h1>
                     <div>برای استفاده از پلتفرم وارد شوید ...</div>
                 </div>
+
                 <form class="login-card-form" action="/singinOTP" method="post">
                     <div class="form-item" dir="rtl">
                         <span class="form-item-icon material-symbols-rounded">phone</span>
                         <input type="text" placeholder="تلفن همراه" id="phoneNumber" name="phoneNumber"
                           minlength="11"maxlength="11" required  value="<%= oldItemSINOTP.phoneNumber %>">
-    
                     </div>
                     <% if(errors && errors.phoneNumber) { %>
                         <span  style="color:red;font-size: 13px;">
@@ -29,11 +30,10 @@
                         <button type="submit">دریافت رمز یکبار مصرف</button>
                         <a href="/singin" style="background: #28292b; color: white;" >ورود از طریق پسورد </a>
                        
-                    </form>
+                </form>
+
                 <div class="login-card-footer" >
                     حساب کاربری ندارید؟ <a href="/singup">حساب جدید بسازید.</a>
-
-
                 </div>
             </div>
         </div>

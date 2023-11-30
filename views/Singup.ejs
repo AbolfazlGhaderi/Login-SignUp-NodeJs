@@ -3,6 +3,17 @@
 </head>
 
 <body>
+    <% if (errSingup[0]) { %>
+        <script>
+        
+         Swal.fire(
+            'هشدار',
+            '<%= errSingup[0] %>',
+            'warning',
+            'Ok'
+        )
+       </script>
+       <% } %>
     
 
     <div class="login-card-container">
