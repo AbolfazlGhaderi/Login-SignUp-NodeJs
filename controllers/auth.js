@@ -39,6 +39,10 @@ exports.getSingInOTP = (req, res) => {
         }
     })
 }
+
+exports.getDashboard=(req,res) =>{
+    res.render('../views/Admin/Dashboard.ejs');
+}
 // ---------------------- Post ----------------------
 
 exports.postSingUp = async (req, res) => {
@@ -145,7 +149,7 @@ exports.postSingIn = (req, res) => {
                     return res.redirect('singin')
                 }
                
-                
+
                 res.send(req.body)
 
 

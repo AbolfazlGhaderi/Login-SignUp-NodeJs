@@ -12,6 +12,8 @@ router.get('/singup', authRouter.getSingup)
 
 router.get('/singinOTP',authRouter.getSingInOTP)
 
+router.get('/Admin/Dashboard',authRouter.getDashboard)
+
 // ---------------------- Post ----------------------
 
 router.post('/singup', [
