@@ -14,7 +14,7 @@ exports.getSingin = (req, res) => {
 }
 
 exports.getSingup = (req, res) => {
-    const errSingup=req.flash("errSingup"); // []
+    const errSingup = req.flash("errSingup"); // []
     res.render('../views/Singup.ejs', {
         errSingup,
         errors: null,
@@ -45,7 +45,7 @@ exports.postSingUp = async (req, res) => {
     if (!errors.isEmpty()) {
         console.log(errors.mapped());
         return res.render('../views/Singup.ejs', {
-            errSingup:[],
+            errSingup: [],
             errors: errors.mapped(),
             oldItemSUP: {
                 userName: req.body.userName,
@@ -57,19 +57,36 @@ exports.postSingUp = async (req, res) => {
         //-------------------- Test With Postman -----------------
         // res.json(errors.mapped());
     }
-    //----------- Search in DB -------------------------
-    const email=req.body.email 
-    await Users.findOne({ email:email }).then(result => {
-        console.log(result);
-        console.log(email);
+    //------------------- Search in DB And Save Data -------------------------
+    const email = req.body.email
+    const phoneNumber = req.body.phoneNumber
+    await Users.findOne({ email: email }).then(result => {
         if (result) {
-            const errSingup=req.flash("errSingup","این ایمیل قبلا ثبت نام شده است!");
-             return res.redirect('/singup')
+            const errSingup = req.flash("errSingup", "این ایمیل قبلا ثبت نام شده است!");
+            return res.redirect('/singup')
         }
-        console.log(req.body);
-        res.json(req.body);
+        Users.findOne({ phoneNumber: phoneNumber }).then(result => {
 
-    })
+            if (result) {
+                const errSingup = req.flash("errSingup", "این تلفن همراه قبلا ثبت نام شده است!");
+                return res.redirect('/singup')
+            }
+
+            const user = new Users({
+                userName: req.body.userName,
+                email: email,
+                phoneNumber: phoneNumber,
+                password: req.body.password
+            });
+            user.save().then(() => {
+                res.redirect('/singin')
+            }).catch(err=>console.log(err))
+            
+        }).catch(err=>console.log(err))
+
+
+
+    }).catch(err=>console.log(err))
 
 
 }
@@ -97,7 +114,7 @@ exports.postSingIn = (req, res) => {
         phoneNumber: req.body.phoneNumber,
         password: req.body.password
     })
-    return saveUser.save().then(()=>{
+    return saveUser.save().then(() => {
         res.redirect('/singin')
     })
 
