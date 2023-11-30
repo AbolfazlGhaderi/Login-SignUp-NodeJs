@@ -7,10 +7,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="./assets/css/styleD.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.28/dist/sweetalert2.all.min.js"></script> 
     <title>Ghaderi Dashboard / Code with : AsmrProg</title>
 </head>
 
 <body>
+    <% if(successSingin[0]) { %>
+        <script>
+            const Toast = Swal.mixin({
+               toast: true,
+                position: 'top-end',
+               showConfirmButton: false,
+               timer: 5000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer)
+                  toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+           })
+   
+           Toast.fire({
+                icon: 'success',
+                title: '<%=successSingin[0]%>'
+           })
+       </script>
+    <% } %>
 
     <!-- Sidebar -->
     <div class="sidebar">

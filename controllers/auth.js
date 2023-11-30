@@ -41,7 +41,11 @@ exports.getSingInOTP = (req, res) => {
 }
 
 exports.getDashboard=(req,res) =>{
-    res.render('../views/Admin/Dashboard.ejs');
+    const successSingin = req.flash('successSingin')
+
+    res.render('../views/Admin/Dashboard.ejs',{
+        successSingin
+    });
 }
 // ---------------------- Post ----------------------
 
@@ -136,21 +140,22 @@ exports.postSingIn = (req, res) => {
     //--------------- Search in DB  -------------------------
     const user = Users.findOne({ email: email })
         .then(result => {
-            console.log(result);
             if (!result) {
-                const errSingin = req.flash('errSingin', ' کاربر مورد نظر یافت نشد.لطفا ثبت نام کنید ❤️')
+                const errSingin = req.flash('errSingin', ' کاربر مورد نظر یافت نشد. لطفا در وارد کردن اطلاعات کنید ❤️')
                 return res.redirect('singin')
             }
                 //--------------- Compare Password   -------------------------
 
             bcryptjs.compare(password, result.password).then(isMatch => {
                 if (!isMatch) {
-                    const errSingin = req.flash('errSingin', ' پسورد اشتباه است ، لطفا دقت کنید ❤️🔐')
+                    const errSingin = req.flash('errSingin', ' پسورد اشتباه است ، لطفا دقت کنید 🔐')
                     return res.redirect('singin')
                 }
                
 
-                res.send(req.body)
+                const successSingin = req.flash('successSingin','😎❤️ با موفقیت وارد شدید ')
+                console.log(successSingin[0]);
+                res.redirect('/Admin/Dashboard')
 
 
             }).catch(err=>console.log(err))
