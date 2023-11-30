@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
 const { Users } = require('../models/user');
+const bcryptjs = require('bcryptjs');
 // ---------------------- GET ----------------------
 
 exports.getSingin = (req, res) => {
@@ -58,35 +59,48 @@ exports.postSingUp = async (req, res) => {
         // res.json(errors.mapped());
     }
     //------------------- Search in DB And Save Data -------------------------
+
     const email = req.body.email
     const phoneNumber = req.body.phoneNumber
+    const password = req.body.password
+
+    //--------------- Search With Email --------------------------------------
+
     await Users.findOne({ email: email }).then(result => {
         if (result) {
             const errSingup = req.flash("errSingup", "این ایمیل قبلا ثبت نام شده است!");
             return res.redirect('/singup')
         }
+
+      //--------------- Search With PhoneNumber ------------------------------
+
         Users.findOne({ phoneNumber: phoneNumber }).then(result => {
 
             if (result) {
                 const errSingup = req.flash("errSingup", "این تلفن همراه قبلا ثبت نام شده است!");
                 return res.redirect('/singup')
             }
+          //-------------- Password encryption By bcryptjs ---------------------
+            bcryptjs.hash(password, 13).then(passHashed => {
+                const user = new Users({
+                    userName: req.body.userName,
+                    email: email,
+                    phoneNumber: phoneNumber,
+                    password: passHashed
+                });
 
-            const user = new Users({
-                userName: req.body.userName,
-                email: email,
-                phoneNumber: phoneNumber,
-                password: req.body.password
-            });
-            user.save().then(() => {
-                res.redirect('/singin')
-            }).catch(err=>console.log(err))
-            
-        }).catch(err=>console.log(err))
+                user.save().then(() => {
+                    res.redirect('/singin')
+                }).catch(err => console.log(err))
+            })
 
 
 
-    }).catch(err=>console.log(err))
+        }).catch(err => console.log(err))
+
+
+
+    }).catch(err => console.log(err))
 
 
 }
