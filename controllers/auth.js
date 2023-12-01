@@ -195,7 +195,8 @@ exports.postSingInOTP = (req, res) => {
                 return res.redirect('singinotp')
             }
             //--------------- Generate OTP Code And Activities  -------------------------
-
+            const otpCode = Math.floor(Math.random() * (99999 - 10000)) + 10000
+            console.log(otpCode);
 
 
             return res.render('../views/SinginOTP.ejs', {
