@@ -32,7 +32,7 @@ exports.getSingup = (req, res) => {
 
 exports.getSingInOTP = (req, res) => {
     res.render('../views/SinginOTP.ejs', {
-        step1: false,
+        step2: false,
         errors: null,
         oldItemSINOTP: {
             phoneNumber: null
@@ -154,7 +154,7 @@ exports.postSingIn = (req, res) => {
                //--------------- Activities -------------------------
 
                 const successSingin = req.flash('successSingin','😎❤️ با موفقیت وارد شدید ')
-                console.log(successSingin[0]);
+                // console.log(successSingin[0]);
                 res.redirect('/Admin/Dashboard')
 
                 //---------------------------------------------------
@@ -168,11 +168,12 @@ exports.postSingIn = (req, res) => {
 exports.postSingInOTP = (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        console.log(errors.mapped());
+        // console.log(errors.mapped());
         return res.render('../views/SinginOTP.ejs', {
+            step2 :false,
             errors: errors.mapped(),
             oldItemSINOTP: {
-                phoneNumber: req.body.phoneNumber
+                email: req.body.email
             }
         })
 

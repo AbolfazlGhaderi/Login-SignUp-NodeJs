@@ -35,7 +35,7 @@ router.post('/singin', [
 ], authRouter.postSingIn)
 
 router.post('/singinOTP', [
-    body('phoneNumber',' فیلد تلفن همراه خالی است /  تعداد ارقام تلفن همراه باید 11 رقم باشد و فقط عدد وارد بشود').isLength({ min: 11, max: 11 }).isInt()
+    body('email').isEmail().withMessage("ایمیل را با دقت وارد کنید")
 
 ], authRouter.postSingInOTP)
 

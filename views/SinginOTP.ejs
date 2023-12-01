@@ -11,7 +11,7 @@
                 <div class="login-card-logo">
                     <img src="./assets/img/general/logo.png" alt="logo">
                 </div>
-
+                <% if (!step2) {%>
                 <div class="login-card-header">
                     <h1>فرم ورود</h1>
                     <div>برای استفاده از پلتفرم وارد شوید ...</div>
@@ -19,13 +19,13 @@
 
                 <form class="login-card-form" action="/singinOTP" method="post">
                     <div class="form-item" dir="rtl">
-                        <span class="form-item-icon material-symbols-rounded">phone</span>
-                        <input type="text" placeholder="تلفن همراه" id="phoneNumber" name="phoneNumber"
-                          minlength="11"maxlength="11" required  value="<%= oldItemSINOTP.phoneNumber %>">
+                        <span class="form-item-icon material-symbols-rounded">email</span>
+                        <input type="email" placeholder="ایمیل" id="email" name="email"
+                           required  value="<%= oldItemSINOTP.email %>">
                     </div>
-                    <% if(errors && errors.phoneNumber) { %>
+                    <% if(errors && errors.email) { %>
                         <span  style="color:red;font-size: 13px;">
-                            <%= errors.phoneNumber.msg %>
+                            <%= errors.email.msg %>
                         </span>
                     <% } %>
 
@@ -37,6 +37,11 @@
                 <div class="login-card-footer" >
                     حساب کاربری ندارید؟ <a href="/singup">حساب جدید بسازید.</a>
                 </div>
+                <% } %>
+
+                <% if (step2) {%>
+
+                 <% } %>
             </div>
         </div>
 
