@@ -45,6 +45,6 @@ app.get('/', (req, res) => {
 mongoose.connect('mongodb://127.0.0.1:27017/login-signup-nodejs')
   .then(() => {
     console.log("connected to login-signup-nodejs DB ... ");
-    app.listen(3000, console.log("App is Runing in port 3000 !"));
+    app.listen(3001, console.log("App is Runing in port 3001 !"));
   })
 

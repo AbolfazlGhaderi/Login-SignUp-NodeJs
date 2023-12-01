@@ -144,19 +144,20 @@ exports.postSingIn = (req, res) => {
                 const errSingin = req.flash('errSingin', ' کاربر مورد نظر یافت نشد. لطفا در وارد کردن اطلاعات کنید ❤️')
                 return res.redirect('singin')
             }
-                //--------------- Compare Password   -------------------------
+             //--------------- Compare Password And Activities  -------------------------
 
             bcryptjs.compare(password, result.password).then(isMatch => {
                 if (!isMatch) {
                     const errSingin = req.flash('errSingin', ' پسورد اشتباه است ، لطفا دقت کنید 🔐')
                     return res.redirect('singin')
                 }
-               
+               //--------------- Activities -------------------------
 
                 const successSingin = req.flash('successSingin','😎❤️ با موفقیت وارد شدید ')
                 console.log(successSingin[0]);
                 res.redirect('/Admin/Dashboard')
 
+                //---------------------------------------------------
 
             }).catch(err=>console.log(err))
 
