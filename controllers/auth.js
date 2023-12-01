@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const { Users } = require('../models/user');
+const { Users,Otps } = require('../models/user');
 const bcryptjs = require('bcryptjs');
 
 // ---------------------- GET ----------------------
@@ -31,7 +31,9 @@ exports.getSingup = (req, res) => {
 }
 
 exports.getSingInOTP = (req, res) => {
+    const errSinginOTP = req.flash("errSinginOTP");
     res.render('../views/SinginOTP.ejs', {
+        errSinginOTP,
         step2: false,
         errors: null,
         oldItemSINOTP: {
@@ -40,10 +42,10 @@ exports.getSingInOTP = (req, res) => {
     })
 }
 
-exports.getDashboard=(req,res) =>{
+exports.getDashboard = (req, res) => {
     const successSingin = req.flash('successSingin')
 
-    res.render('../views/Admin/Dashboard.ejs',{
+    res.render('../views/Admin/Dashboard.ejs', {
         successSingin
     });
 }
@@ -141,45 +143,73 @@ exports.postSingIn = (req, res) => {
     const user = Users.findOne({ email: email })
         .then(result => {
             if (!result) {
-                const errSingin = req.flash('errSingin', ' کاربر مورد نظر یافت نشد. لطفا در وارد کردن اطلاعات کنید ❤️')
+                const errSingin = req.flash('errSingin', ' کاربر مورد نظر یافت نشد. لطفا در وارد کردن اطلاعات دقت کنید ❤️')
                 return res.redirect('singin')
             }
-             //--------------- Compare Password And Activities  -------------------------
+            //--------------- Compare Password And Activities  -------------------------
 
             bcryptjs.compare(password, result.password).then(isMatch => {
                 if (!isMatch) {
                     const errSingin = req.flash('errSingin', ' پسورد اشتباه است ، لطفا دقت کنید 🔐')
                     return res.redirect('singin')
                 }
-               //--------------- Activities -------------------------
+                //--------------- Activities -------------------------
 
-                const successSingin = req.flash('successSingin','😎❤️ با موفقیت وارد شدید ')
+                const successSingin = req.flash('successSingin', '😎❤️ با موفقیت وارد شدید ')
                 // console.log(successSingin[0]);
                 res.redirect('/Admin/Dashboard')
 
                 //---------------------------------------------------
 
-            }).catch(err=>console.log(err))
+            }).catch(err => console.log(err))
 
-        }).catch(err=>console.log(err))
+        }).catch(err => console.log(err))
 
 }
 
 exports.postSingInOTP = (req, res) => {
+
+    // -------------- validator -----------------------------------------
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         // console.log(errors.mapped());
         return res.render('../views/SinginOTP.ejs', {
-            step2 :false,
+            errSinginOTP: [],
+            step2: false,
             errors: errors.mapped(),
             oldItemSINOTP: {
                 email: req.body.email
             }
         })
-
-        //-------------------- Test With Postman -----------------
-        // res.json(errors.mapped());
     }
+
+    //--------------- Control Flow  -------------------------
+    if (!req.body.otp) {
+
+        //--------------- Search in DB  -------------------------
+        Users.findOne({ email: req.body.email }).then(result => {
+
+            if (!result) {
+                const errSinginOTP = req.flash('errSinginOTP', ' کاربر مورد نظر یافت نشد. لطفا در وارد کردن اطلاعات دقت کنید ❤️')
+                return res.redirect('singinotp')
+            }
+            //--------------- Generate OTP Code And Activities  -------------------------
+
+
+
+            return res.render('../views/SinginOTP.ejs', {
+                step2: true,
+                item: req.body.email
+            })
+
+        })
+    }
+    else{
+        res.json(req.body)
+    }
+
+    
 }
 
 

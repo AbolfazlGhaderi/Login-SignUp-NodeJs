@@ -6,12 +6,25 @@
 
     <body>
 
+
+
         <div class="login-card-container">
             <div class="login-card" style="margin-top:80px;">
                 <div class="login-card-logo">
                     <img src="./assets/img/general/logo.png" alt="logo">
                 </div>
                 <% if (!step2) {%>
+                    <% if (errSinginOTP[0]) { %>
+                        <script>
+                        
+                         Swal.fire(
+                            'Not Found',
+                            '<%= errSinginOTP[0] %>',
+                            'error',
+                            'Ok'
+                        )
+                       </script>
+                       <% } %>
                 <div class="login-card-header">
                     <h1>فرم ورود</h1>
                     <div>برای استفاده از پلتفرم وارد شوید ...</div>
@@ -40,7 +53,27 @@
                 <% } %>
 
                 <% if (step2) {%>
-
+                    <div class="login-card-header">
+                        <h1>تایید کد</h1>
+                        <div>کد یکبار مصرف ارسال شده به ایمیل خود  را وارد کنید</div>
+                    </div>
+    
+                    <form class="login-card-form" action="/singinOTP" method="post">
+                        <div class="form-item" dir="rtl">
+                            <span class="form-item-icon material-symbols-rounded">code</span>
+                            <input type="text" placeholder="کد را وارد کنید" id="otp" name="otp"
+                               required minlength="5" maxlength="5">
+                               <input type="hidden" id="email" name="email" value="<%= item %>">
+                        </div>
+    
+                            <button type="submit" style="background-color: rgb(12, 215, 32); color: white;">تایید</button>
+                            <a href="/singinotp" style="background: #28292b; color: white;" >برگشت به صفحه ورود</a>
+                           
+                    </form>
+    
+                    <div class="login-card-footer" >
+                        حساب کاربری ندارید؟ <a href="/singup">حساب جدید بسازید.</a>
+                    </div>
                  <% } %>
             </div>
         </div>
