@@ -1,7 +1,7 @@
-const { validationResult } = require('express-validator');
-const { Users,Otps } = require('../models/user');
+const { validationResult, Result } = require('express-validator');
+const { Users, Otps } = require('../models/user');
 const bcryptjs = require('bcryptjs');
-
+const emailjs = require('@emailjs/nodejs');
 // ---------------------- GET ----------------------
 
 exports.getSingin = (req, res) => {
@@ -167,7 +167,7 @@ exports.postSingIn = (req, res) => {
 
 }
 
-exports.postSingInOTP = (req, res) => {
+exports.postSingInOTP = async (req, res) => {
 
     // -------------- validator -----------------------------------------
 
@@ -184,33 +184,62 @@ exports.postSingInOTP = (req, res) => {
         })
     }
 
+    const {email}=req.body;
     //--------------- Control Flow  -------------------------
     if (!req.body.otp) {
 
         //--------------- Search in DB  -------------------------
-        Users.findOne({ email: req.body.email }).then(result => {
+       await Users.findOne({ email: email }).then(result => {
 
             if (!result) {
                 const errSinginOTP = req.flash('errSinginOTP', ' کاربر مورد نظر یافت نشد. لطفا در وارد کردن اطلاعات دقت کنید ❤️')
                 return res.redirect('singinotp')
             }
+
             //--------------- Generate OTP Code And Activities  -------------------------
             const otpCode = Math.floor(Math.random() * (99999 - 10000)) + 10000
-            console.log(otpCode);
+
+            //--------------- Mail Options -------------------------
+
+            const templateParams = {
+                'user_email': email,
+                'message': otpCode,
+              };
+              
+              emailjs
+                .send('service_4unep3c', 'template_w68feom', templateParams, {
+                  publicKey: 'Sl2pHHfuDBTB1iqcj',
+                  privateKey: '8gV37_j5jGpKd0jQh55ex', // optional, highly recommended for security reasons
+                })
+                .then(
+                  (response) => {
+                    console.log('SUCCESS!', response.status, response.text);
+                  },
+                  (err) => {
+                    console.log('FAILED...', err);
+                  },
+                );
 
 
-            return res.render('../views/SinginOTP.ejs', {
-                step2: true,
-                item: req.body.email
-            })
+
+            //--------------- Send Mail -------------------------
+
+
+
+                
+
+            // return res.render('../views/SinginOTP.ejs', {
+            //     step2: true,
+            //     item: req.body.email
+            // })
 
         })
     }
-    else{
+    else {
         res.json(req.body)
     }
 
-    
+
 }
 
 
