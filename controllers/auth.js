@@ -189,65 +189,77 @@ exports.postSingInOTP = async (req, res) => {
     if (!req.body.otp) {
 
         //--------------- Search in DB  -------------------------
-        await Users.findOne({ email: email }).then(result => {
+        await Users.findOne({ email: email }).then(async result => {
 
+            //--------------- If the EMAIL  not  already exist  -------------------------
             if (!result) {
                 const errSinginOTP = req.flash('errSinginOTP', ' کاربر مورد نظر یافت نشد. لطفا در وارد کردن اطلاعات دقت کنید ❤️')
                 return res.redirect('singinotp')
             }
+                
+            await Otps.findOne({ email: email }).then(async result => {
 
-            //--------------- Generate OTP Code  -------------------------
-            const otpCode = Math.floor(Math.random() * (99999 - 10000)) + 10000
+                //--------------- If the CODE  already exists  -------------------------
 
-            //--------------- Mail Options -------------------------
-
-            const templateParams = {
-                'user_email': email,
-                'message': otpCode,
-            };
-
-            //--------------- Send Mail And Save OTPCode -------------------------
-            emailjs
-                .send('service_4unep3c', 'template_w68feom', templateParams, {
-                    publicKey: 'Sl2pHHfuDBTB1iqcj',
-                    privateKey: '8gV37_j5jGpKd0jQh55ex', // optional, highly recommended for security reasons
-                })
-                .then(
-                    (response) => {
-                        console.log(`SUCCESS! Send to  : ${email} / ${otpCode} `
-                            , response.status, response.text);
-
-                        //--------------- Save OTP in DB -------------------------
-                        const otp = new Otps({
-                            email: email,
-                            otp: otpCode
-                        })
-                        otp.save().then(() => {
-
-                            return res.render('../views/SinginOTP.ejs', {
-                                step2: true,
-                                item: req.body.email
-                            })
-
-                        }).catch(err => console.log(err))
-                    }, 
-
-                     //----------- Handel Error Send Email ------------------------
-                     
-                    err => {
+                if (result) {
+                    await Otps.findByIdAndDelete(result._id).catch(err=>{
                         console.log(err);
-                        const errSinginOTP = req.flash('errSinginOTP', ' ارسال ایمیل با مشکلاتی روبرو شده است . لطفا لحظاتی دیگر امتحان کنید')
-                        return res.redirect('singinotp')
-                    }
-                ).catch(err=>{
-                    console.log(err);
-                    const errSinginOTP = req.flash('errSinginOTP', ' ارسال ایمیل با مشکلاتی روبرو شده است . لطفا لحظاتی دیگر امتحان کنید')
-                    return res.redirect('singinotp')
-                });
+                    })
+                }
+
+                //--------------- Generate OTP Code  -------------------------
+                const otpCode = Math.floor(Math.random() * (99999 - 10000)) + 10000
+
+                //--------------- Mail Options -------------------------
+
+                const templateParams = {
+                    'user_email': email,
+                    'message': otpCode,
+                };
+
+                // --------------- Send Mail And Save OTPCode -------------------------
+
+                emailjs
+                    .send('service_4unep3c', 'template_w68feom', templateParams, {
+                        publicKey: 'Sl2pHHfuDBTB1iqcj',
+                        privateKey: '8gV37_j5jGpKd0jQh55ex',
+                    })
+                    .then(
+                        (response) => {
+                            console.log(`SUCCESS! Send to  : ${email} / ${otpCode} `
+                                , response.status, response.text);
+                            //--------------- Save OTP in DB -------------------------
+
+                            const otp = new Otps({
+                                email: email,
+                                otp: otpCode
+                            })
+                            otp.save().then(() => {
+
+                                return res.render('../views/SinginOTP.ejs', {
+                                    step2: true,
+                                    item: req.body.email
+                                })
+
+                            }).catch(err => console.log(err))
+                        },
+
+                        //----------- Handel Error Send Email ------------------------
+
+                        err => {
+                            console.log(err);
+                            const errSinginOTP = req.flash('errSinginOTP', ' ارسال ایمیل با مشکلاتی روبرو شده است . لطفا لحظاتی دیگر امتحان کنید')
+                            return res.redirect('singinotp')
+                        }
+                    )
+
+            }).catch(err => console.log(err))
 
 
         }).catch(err => console.log(err))
     }
+
+
     else {
         res.json(req.body)
     }

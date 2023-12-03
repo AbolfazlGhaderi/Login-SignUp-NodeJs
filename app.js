@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 
-const bodyParser = require('body-parser');
 const path = require('path');
 const flash = require('connect-flash');
 const cookiParser = require('cookie-parser');
@@ -17,7 +16,7 @@ app.set("views", "views");
 
 //----------- Middlewares ----------------
 app.use(express.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: false }))
 app.use("/assets", express.static(path.join(__dirname, 'public')))
 //----------- flash ----------------------
 app.use(cookiParser());
