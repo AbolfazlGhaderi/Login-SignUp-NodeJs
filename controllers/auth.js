@@ -196,13 +196,13 @@ exports.postSingInOTP = async (req, res) => {
                 const errSinginOTP = req.flash('errSinginOTP', ' کاربر مورد نظر یافت نشد. لطفا در وارد کردن اطلاعات دقت کنید ❤️')
                 return res.redirect('singinotp')
             }
-                
+
             await Otps.findOne({ email: email }).then(async result => {
 
                 //--------------- If the CODE  already exists  -------------------------
 
                 if (result) {
-                    await Otps.findByIdAndDelete(result._id).catch(err=>{
+                    await Otps.findByIdAndDelete(result._id).catch(err => {
                         console.log(err);
                     })
                 }
@@ -217,6 +217,7 @@ exports.postSingInOTP = async (req, res) => {
                     'message': otpCode,
                 };
 
+
                 // --------------- Send Mail And Save OTPCode -------------------------
 
                 emailjs
@@ -229,19 +230,19 @@ exports.postSingInOTP = async (req, res) => {
                             console.log(`SUCCESS! Send to  : ${email} / ${otpCode} `
                                 , response.status, response.text);
                             //--------------- Save OTP in DB -------------------------
-
                             const otp = new Otps({
                                 email: email,
                                 otp: otpCode
                             })
                             otp.save().then(() => {
-
                                 return res.render('../views/SinginOTP.ejs', {
+                                    error: null,
                                     step2: true,
                                     item: req.body.email
                                 })
-
+            
                             }).catch(err => console.log(err))
+
                         },
 
                         //----------- Handel Error Send Email ------------------------
@@ -261,7 +262,25 @@ exports.postSingInOTP = async (req, res) => {
 
 
     else {
-        res.json(req.body)
+        //----------------- Search Code in DB --------------------
+
+        const userINFO = await Otps.findOne({ email: email, otp: req.body.otp })
+        if (!userINFO) return res.render('../views/SinginOTP.ejs', {
+            error: "کد وارد شده اشتباه میباشد !",
+            step2: true,
+            item: req.body.email
+        });
+
+        //----------------- Delete Code in DB --------------------  
+
+        const deletedUser = await Otps.findByIdAndDelete(userINFO._id);
+        if (!deletedUser) return console.log("خطایی رخ داده است !");
+
+         //----------------- Login --------------------
+
+        const successSingin = req.flash('successSingin', '😎❤️ با موفقیت وارد شدید ')
+        // console.log(successSingin[0]);
+        return res.redirect('/Admin/Dashboard')
     }
 
 

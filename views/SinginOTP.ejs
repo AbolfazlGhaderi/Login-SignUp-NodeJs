@@ -53,6 +53,7 @@
                 <% } %>
 
                 <% if (step2) {%>
+                    
                     <div class="login-card-header">
                         <h1>تایید کد</h1>
                         <div>کد یکبار مصرف ارسال شده به ایمیل خود  را وارد کنید</div>
@@ -65,6 +66,11 @@
                                required minlength="5" maxlength="5">
                                <input type="hidden" id="email" name="email" value="<%= item %>">
                         </div>
+                        <% if(error) { %>
+                            <span  style="color:red;font-size: 13px;">
+                                <%= error %>
+                            </span>
+                        <% } %>
     
                             <button type="submit" style="background-color: rgb(12, 215, 32); color: white;">تایید</button>
                             <a href="/singinotp" style="background: #28292b; color: white;" >برگشت به صفحه ورود</a>
