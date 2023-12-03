@@ -40,15 +40,17 @@ const Otps = mongoose.model('OTPs', new mongoose.Schema({
         trim: true
     },
     otp:{
-        type:Number,
+        type:String,
         required:true,
     },
     createdAt: {
         type: Date,
-        default: Date.now,
-        expires: 30, //  automatically deleted after 1 minutes of its creation time
+        default: Date.now 
       },
+
+
 })
 )
+
 
 module.exports={Users,Otps}
