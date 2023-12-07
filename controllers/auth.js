@@ -185,7 +185,9 @@ exports.postSingInOTP = async (req, res) => {
     }
 
     const { email } = req.body;
+
     //--------------- Control Flow  -------------------------
+    
     if (!req.body.otp) {
 
         //--------------- Search in DB  -------------------------
@@ -221,9 +223,9 @@ exports.postSingInOTP = async (req, res) => {
                 // --------------- Send Mail And Save OTPCode -------------------------
 
                 emailjs
-                    .send('service_4unep3c', 'template_w68feom', templateParams, {
-                        publicKey: 'Sl2pHHfuDBTB1iqcj',
-                        privateKey: '8gV37_j5jGpKd0jQh55ex',
+                    .send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams, {
+                        publicKey: 'YOUR_PUBLIC_KEY',
+                        privateKey: 'YOUR_PRIVATE_KEY',
                     })
                     .then(
                         (response) => {
