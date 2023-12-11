@@ -3,18 +3,20 @@ const router = express.Router();
 const authRouter = require('../controllers/auth');
 
 const { check, body } = require('express-validator');
+const {islogged} = require('../middlewares/islogged')
 
-// ---------------------- GET ----------------------
+// ---------------------- GET ------------------------------------------
+router.get('/', islogged,authRouter.getHome)
 
-router.get('/singin', authRouter.getSingin)
+router.get('/singin', islogged,authRouter.getSingin)
 
-router.get('/singup', authRouter.getSingup)
+router.get('/singup',islogged, authRouter.getSingup)
 
-router.get('/singinOTP',authRouter.getSingInOTP)
+router.get('/singinOTP',islogged,authRouter.getSingInOTP)
 
 router.get('/Admin/Dashboard',authRouter.getDashboard)
 
-// ---------------------- Post ----------------------
+// ---------------------- Post ----------------------------------------------------
 
 router.post('/singin', [
     body('email').isEmail().withMessage("ایمیل را با دقت وارد کنید"),
@@ -33,8 +35,6 @@ router.post('/singup', [
     ),
 
 ], authRouter.postSingUp)
-
-
 
 router.post('/singinOTP', [
     body('email').isEmail().withMessage("ایمیل را با دقت وارد کنید")

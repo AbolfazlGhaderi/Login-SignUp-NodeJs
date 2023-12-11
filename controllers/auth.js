@@ -4,6 +4,11 @@ const bcryptjs = require('bcryptjs');
 const emailjs = require('@emailjs/nodejs');
 // ---------------------- GET ----------------------
 
+exports.getHome = (req, res) => {
+    const successAddProduct = req.flash("successAddProduct");
+    res.render('./index.ejs', { successAddProduct })
+
+}
 exports.getSingin = (req, res) => {
 
     const errSingin = req.flash("errSingin"); // []
@@ -45,12 +50,17 @@ exports.getSingInOTP = (req, res) => {
 }
 
 exports.getDashboard = (req, res) => {
-    const successSingin = req.flash('successSingin')
+    if (!req.session.islogged) {
 
+        return res.redirect('/')
+
+    }
+    const successSingin = req.flash('successSingin')
     res.render('../views/Admin/Dashboard.ejs', {
         successSingin
     });
 }
+
 // ---------------------- Post ----------------------
 
 exports.postSingUp = async (req, res) => {
@@ -104,7 +114,7 @@ exports.postSingUp = async (req, res) => {
                     phoneNumber: phoneNumber,
                     password: passHashed
                 });
-                
+
                 //-------------- Save Data ---------------------
 
                 user.save().then(() => {
@@ -162,6 +172,7 @@ exports.postSingIn = (req, res) => {
 
                 const successSingin = req.flash('successSingin', '😎❤️ با موفقیت وارد شدید ')
                 // console.log(successSingin[0]);
+                req.session.islogged = true;
                 res.redirect('/Admin/Dashboard')
 
                 //---------------------------------------------------
@@ -192,7 +203,8 @@ exports.postSingInOTP = async (req, res) => {
     const { email } = req.body;
 
     //--------------- Control Flow  -------------------------
-    
+
+    //--------------- Send Code  -------------------------
     if (!req.body.otp) {
 
         //--------------- Search in DB  -------------------------
@@ -247,7 +259,7 @@ exports.postSingInOTP = async (req, res) => {
                                     step2: true,
                                     item: req.body.email
                                 })
-            
+
                             }).catch(err => console.log(err))
 
                         },
@@ -268,7 +280,10 @@ exports.postSingInOTP = async (req, res) => {
     }
 
 
+    //--------------- Comfirm Code  -------------------------
+
     else {
+        
         //----------------- Search Code in DB --------------------
 
         const userINFO = await Otps.findOne({ email: email, otp: req.body.otp })
@@ -283,8 +298,9 @@ exports.postSingInOTP = async (req, res) => {
         const deletedUser = await Otps.findByIdAndDelete(userINFO._id);
         if (!deletedUser) return console.log("خطایی رخ داده است !");
 
-         //----------------- Login --------------------
+        //----------------- Login --------------------
 
+        req.session.islogged = true
         const successSingin = req.flash('successSingin', '😎❤️ با موفقیت وارد شدید ')
         // console.log(successSingin[0]);
         return res.redirect('/Admin/Dashboard')

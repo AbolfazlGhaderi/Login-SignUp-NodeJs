@@ -1,13 +1,10 @@
 const express = require("express");
 const app = express();
-
 const path = require('path');
 const flash = require('connect-flash');
 const cookiParser = require('cookie-parser');
 const session = require('express-session');
-
 const authRoute = require('./routes/auth');
-
 const mongoose = require("mongoose")
 //----------- Set Views ------------------
 
@@ -18,6 +15,7 @@ app.set("views", "views");
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use("/assets", express.static(path.join(__dirname, 'public')))
+
 //----------- flash ----------------------
 app.use(cookiParser());
 app.use(session({
@@ -31,12 +29,6 @@ app.use(flash());
 
 app.use(authRoute)
 
-app.get('/', (req, res) => {
-
-  const successAddProduct = req.flash("successAddProduct");
-
-  res.render('./index.ejs', { successAddProduct })
-})
 
 mongoose.connect('mongodb://127.0.0.1:27017/login-signup-nodejs')
   .then(() => {
