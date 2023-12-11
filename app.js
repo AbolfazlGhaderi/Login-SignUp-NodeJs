@@ -21,10 +21,9 @@ app.use("/assets", express.static(path.join(__dirname, 'public')))
 //----------- flash ----------------------
 app.use(cookiParser());
 app.use(session({
-  secret: 'something',
-  cookie: { maxAge: 60000 },
-  resave: true,
-  saveUninitialized: true
+  secret: 'this is just for testing',
+  resave: false,
+  saveUninitialized: false
 }));
 app.use(flash());
 

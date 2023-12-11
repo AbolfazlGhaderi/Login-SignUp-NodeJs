@@ -5,6 +5,7 @@ const emailjs = require('@emailjs/nodejs');
 // ---------------------- GET ----------------------
 
 exports.getSingin = (req, res) => {
+
     const errSingin = req.flash("errSingin"); // []
     res.render('../views/Singin.ejs', {
         errSingin,
@@ -17,6 +18,7 @@ exports.getSingin = (req, res) => {
 }
 
 exports.getSingup = (req, res) => {
+
     const errSingup = req.flash("errSingup"); // []
     res.render('../views/Singup.ejs', {
         errSingup,
@@ -92,7 +94,9 @@ exports.postSingUp = async (req, res) => {
                 const errSingup = req.flash("errSingup", "این تلفن همراه قبلا ثبت نام شده است!");
                 return res.redirect('/singup')
             }
+
             //-------------- Password encryption By bcryptjs ---------------------
+
             bcryptjs.hash(password, 13).then(passHashed => {
                 const user = new Users({
                     userName: req.body.userName,
@@ -100,6 +104,7 @@ exports.postSingUp = async (req, res) => {
                     phoneNumber: phoneNumber,
                     password: passHashed
                 });
+                
                 //-------------- Save Data ---------------------
 
                 user.save().then(() => {

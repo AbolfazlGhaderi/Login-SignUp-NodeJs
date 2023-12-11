@@ -16,6 +16,14 @@ router.get('/Admin/Dashboard',authRouter.getDashboard)
 
 // ---------------------- Post ----------------------
 
+router.post('/singin', [
+    body('email').isEmail().withMessage("ایمیل را با دقت وارد کنید"),
+    body('password'," فیلد پسور خالی است / پسورد باید ترکیبی از حروف کوچک و بزرگ ، سیمبل ها و اعداد باشد / بیشتر از 8 حرف باشد").isLength({ min: 3 }).isStrongPassword(
+        { minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1 }
+    ),
+
+], authRouter.postSingIn)
+
 router.post('/singup', [
     body('userName').isLength({ min: 3 }).withMessage(" فیلد نام کاربری خالی است / تعداد حروف  باید از 3 حرف بیشتر باشد "),
     body('email').isEmail().withMessage("ایمیل را با دقت وارد کنید"),
@@ -26,13 +34,7 @@ router.post('/singup', [
 
 ], authRouter.postSingUp)
 
-router.post('/singin', [
-    body('email').isEmail().withMessage("ایمیل را با دقت وارد کنید"),
-    body('password'," فیلد پسور خالی است / پسورد باید ترکیبی از حروف کوچک و بزرگ ، سیمبل ها و اعداد باشد / بیشتر از 8 حرف باشد").isLength({ min: 3 }).isStrongPassword(
-        { minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1 }
-    ),
 
-], authRouter.postSingIn)
 
 router.post('/singinOTP', [
     body('email').isEmail().withMessage("ایمیل را با دقت وارد کنید")
