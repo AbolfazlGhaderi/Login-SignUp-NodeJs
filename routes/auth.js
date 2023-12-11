@@ -16,7 +16,8 @@ router.get('/singinOTP',islogged,authRouter.getSingInOTP)
 
 router.get('/Admin/Dashboard',authRouter.getDashboard)
 
-// ---------------------- Post ----------------------------------------------------
+
+// ---------------------- Post -----------------------------------------
 
 router.post('/singin', [
     body('email').isEmail().withMessage("ایمیل را با دقت وارد کنید"),
@@ -40,5 +41,7 @@ router.post('/singinOTP', [
     body('email').isEmail().withMessage("ایمیل را با دقت وارد کنید")
 
 ], authRouter.postSingInOTP)
+
+router.post('/logout', authRouter.postLogout)
 
 module.exports = router;

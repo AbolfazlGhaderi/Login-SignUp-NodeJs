@@ -165,7 +165,7 @@ body{
     justify-content: center;
 }
 
-.sidebar .side-menu li a.logout{
+.sidebar .side-menu li button.logout{
     color: var(--danger);
 }
 

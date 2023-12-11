@@ -283,7 +283,7 @@ exports.postSingInOTP = async (req, res) => {
     //--------------- Comfirm Code  -------------------------
 
     else {
-        
+
         //----------------- Search Code in DB --------------------
 
         const userINFO = await Otps.findOne({ email: email, otp: req.body.otp })
@@ -309,4 +309,8 @@ exports.postSingInOTP = async (req, res) => {
 
 }
 
+exports.postLogout=(req,res)=>{
+    req.session.destroy();
+    res.redirect('/');
+}
 
