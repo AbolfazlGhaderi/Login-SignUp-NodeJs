@@ -50,8 +50,9 @@ exports.getSingInOTP = (req, res) => {
 }
 
 exports.getDashboard = (req, res) => {
-    if (!req.session.islogged) {
-
+    const islogged =req.cookies.islogged;
+    if (islogged!=="true") {
+        res.clearCookie('islogged');
         return res.redirect('/')
 
     }
@@ -168,11 +169,15 @@ exports.postSingIn = (req, res) => {
                     const errSingin = req.flash('errSingin', ' پسورد اشتباه است ، لطفا دقت کنید 🔐')
                     return res.redirect('singin')
                 }
-                //--------------- Activities -------------------------
 
+                //--------------- Activities -------------------------
+               //----------------- Set Cookie --------------------
+                res.cookie("islogged",'true', {
+                    httpOnly: true,
+                    maxAge:1000 * 60 * 60
+                });
+               //----------------- Login --------------------
                 const successSingin = req.flash('successSingin', '😎❤️ با موفقیت وارد شدید ')
-                // console.log(successSingin[0]);
-                req.session.islogged = true;
                 res.redirect('/Admin/Dashboard')
 
                 //---------------------------------------------------
@@ -298,9 +303,15 @@ exports.postSingInOTP = async (req, res) => {
         const deletedUser = await Otps.findByIdAndDelete(userINFO._id);
         if (!deletedUser) return console.log("خطایی رخ داده است !");
 
+        //----------------- Set Cookie --------------------
+
+        res.cookie("islogged",'true', {
+            httpOnly: true,
+            maxAge:1000 * 60 * 60
+        });
+        
         //----------------- Login --------------------
 
-        req.session.islogged = true
         const successSingin = req.flash('successSingin', '😎❤️ با موفقیت وارد شدید ')
         // console.log(successSingin[0]);
         return res.redirect('/Admin/Dashboard')
@@ -310,7 +321,7 @@ exports.postSingInOTP = async (req, res) => {
 }
 
 exports.postLogout=(req,res)=>{
-    req.session.destroy();
+    res.clearCookie('islogged');
     res.redirect('/');
 }
 
