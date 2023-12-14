@@ -4,7 +4,7 @@
   "description": "Creating a registration and login page using NodeJS",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "app:dev": "node --watch app.js"
   },
   "author": "Abolfazl Ghaderi",
   "license": "Unlicense",
