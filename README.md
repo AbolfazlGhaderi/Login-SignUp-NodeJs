@@ -21,7 +21,7 @@ You can access information about this project through the following site
 Clone the project
 
 ```bash
-  git clone <URL>
+  git clone https://github.com/AbolfazlGhaderi/Login-SignUp-NodeJs
 ```
 Install dependencies
 
