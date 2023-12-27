@@ -45,7 +45,7 @@ Changes should be made in the `postSingInOTP` section of the controller
 
 ## Feedback
 
-If you have any feedback, please reach out to me (Telegram : @Abolfazl_ghaderii Or Email : brianprogrammer0@gmail.com) 
+If you have any feedback, please reach out to me ( Telegram : https://t.me/Abolfazl_ghaderii Or Email: dev.ghaderi@gmail.com )
 
 Thank you for being with me so far. I hope you improve every day ❤️
 
